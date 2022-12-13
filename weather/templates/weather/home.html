@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load get_weather_info %}
+
+{% url 'weather:forecast' as path_to_forecast %}
+
+{% block custom_title %}
+Home
+{% endblock custom_title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'weather/css/home.css' %}">
+{% endblock styles %}
+
+
+{% block scripts %}
+  <script src="{% static 'weather/js/home.js' %}" 
+  data-pages='{{ num_pages }}'
+  defer></script>
+{% endblock scripts %}
+  
+{% block content %} 
+<main class="main">
+  
+  <div id="outside-container">
+    <div id="inside-container" class="cf">
+      {% for city in cities %}
+
+      {% get_weather city.name units language as weather_info %}
+
+      
+      {% if units == 'metric' %}
+      <div class="items" >
+        <div class="data-div">
+          <ul>
+            <li><b>{% destructure weather_info 'location' 'city' %}</b> </li>
+            <li class="weather-desciprion">{% destructure weather_info 'weather' 'description' %}</li>
+            <img src="{% destructure weather_info 'weather' 'icon' %}" alt=" " class="weather-icon">
+            <li>{% destructure weather_info 'main' 'temperature' %}°C</li>
+            <li>{% destructure weather_info 'location' 'time' %}</li>
+          </ul>
+        </div>
+        <img class="carousel-img" src="{{city.image.url}}" alt="No image available">
+      </div>
+      {% else %}
+      <div class="items" >
+        <div class="data-div">
+          <ul>
+            <li><b>{% destructure weather_info 'location' 'city' %}</b> </li>
+            <li class="weather-desciprion">{% destructure weather_info 'weather' 'description' %}</li>
+            <img src="{% destructure weather_info 'weather' 'icon' %}" alt=" " class="weather-icon">
+            <li>{% destructure weather_info 'main' 'temperature' %}°F</li>
+            <li>{% destructure weather_info 'location' 'time' %}</li>
+          </ul>
+        </div>
+        <img class="carousel-img" src="{{city.image.url}}" alt="No image available">
+      </div>
+      {% endif %}
+
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div id="directions">
+    <h4 id="slide-button"></h4>
+    <a id="next-slide" href="?page="></a>
+  </div>
+
+</main>
+
+
+<div class="btn-container">
+  <div class="btn-div">
+      <a class="link" href="{% url 'weather:forecast' %}">
+        Forecast
+        <i class="bi bi-cloud-sun"></i>
+      </a>
+  </div>
+
+</div>
+
+{% endblock content %}

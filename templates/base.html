@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Web-App for world wide real time weather and 5 days / 3 hours weather forecasts">
+
+  
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"/>
+  
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
+  
+  <!-- favicon -->
+  <link rel="shortcut icon" href="{% static 'favicon_io/favicon.ico' %}" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block styles %}
+  {% endblock styles %}
+
+  <!-- JS -->
+  {% block scripts %}
+  {% endblock scripts %}
+
+  <title>Weather App | {% block custom_title %}{% endblock custom_title %}</title>
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  {% block content %}{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% load static %}
+
+{% url 'weather:home' as path_to_home %}
+
+
+{% block scripts %}
+  <script src="{% static 'js/navigation.js' %}" defer></script>
+{% endblock scripts %}
+  
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+{% endblock styles %}
+
+<nav class="nav">
+  <a class="home-a" aria-label="Home link" href="{{path_to_home}}"><i class="bi bi-house-door"></i></a>
+  <h1>Weather App</h1>
+  <div class="selection-div">
+
+    <form action="" method="GET">
+      <div class="units-div">
+        <label for="units">Units:</label>
+        <select name="units" id="units-selection" onchange="updateUrl('units')">
+          <option value="imperial">Imperial</option>
+          <option value="metric">Metric</option>
+        </select>
+      </div>
+      <div class="language-div">
+        <label for="language">Language:</label>
+        <select name="language" id="language-selection" onchange="updateUrl()">
+          {% for language in languages %}
+          <option value="{{language}}">{{language}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+  </div>
+</nav>

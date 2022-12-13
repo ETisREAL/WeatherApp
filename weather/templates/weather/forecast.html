@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'weather/css/forecast.css' %}">
+{% endblock styles %}
+
+{% block scripts %}
+  <script src="{% static 'weather/js/forecast.js' %}"
+  data-weather="{{serialized_current_weather}}"
+  data-forecast="{{serialized_forecast}}"
+  data-units="{{units}}"
+  defer></script>
+{% endblock scripts %}
+
+{% block custom_title%}
+  Forecast
+{% endblock custom_title%}
+
+
+{% block content %}
+
+<div class="alert alert-warning" role="alert">
+</div>
+
+<div class="form-container">
+  <div class="input-div">
+    <form action="" method="POST" class="form">
+    {% csrf_token %}
+      <div class="autocomplete-container" id="autocomplete-container">
+        <label for="autocomplete" class="visually-hidden">Autocomplete input</label>
+        <input autocomplete="off" id="autocomplete-input" name="city" type="text" placeholder="Search"/>
+        <label for="coords" class="visually-hidden">Hidden coordinates input</label>
+        <input type="hidden" name="coords" id="hidden-input">
+        <button aria-label="clear predictions" class="clear-button"><i class="bi bi-x-square"></i></button>
+      </div>
+      <button aria-label="search weather" class="btn search-btn" type="submit" name="get_info">
+        <i class="bi bi-search"></i>
+      </button>
+    <form>
+  </div>
+  <button aria-label="add optional filters" class="btn filter-btn" data-dropdown-btn name="filters">
+    <i class="bi bi-filter"></i>
+  </button>
+</div>
+
+<div class="filter-dropdown">
+  <div class="dropdown-selection">
+    <div class="filters">
+      <h3 class="dropdown-heading">Location</h3>
+      <h6>Timezone <label for="timezone" class="visually-hidden">Timezone</label> <input type="checkbox" name="timezone"></h6>
+      <h6>Sunrise — Sunset <label for="sunrise-sunset" class="visually-hidden">Sunrise-Sunset</label><input type="checkbox" name="sunrise-sunset"></h6>
+      <h6>Coordinates <label for="coords" class="visually-hidden">Coordinates</label><input type="checkbox" name="coords"></h6>
+    </div>
+
+    <div class="filters">
+      <h3 class="dropdown-heading">Weather</h3>
+        <h6>Perceived Temperature <label for="perceived temperature" class="visually-hidden">Perceived temperature</label><input type="checkbox" name="temp-perceived"></h6>
+        <h6>Min - Max Temperature <label for="min -max temp" class="visually-hidden">Min - Max Temp</label><input type="checkbox" name="temp-min-max"></h6>
+        <h6>Pressure <label for="pressure" class="visually-hidden">Pressure</label><input type="checkbox" name="pressure"></h6>
+        <h6>Humidity <label for="humidity" class="visually-hidden">Humidity</label><input type="checkbox" name="humidity"></h6>
+        <h6>Visibility <label for="visibility" class="visually-hidden">Visibility</label><input type="checkbox" name="visibility"></h6>
+    </div>
+  </div>
+</div>
+
+
+{% if lat is not None %}
+    
+  <main class="weather-data-div">
+
+    <div class="current-weather-container">
+      <div class="location-related">
+        <h2 id="location-title"></h2>
+        <h3 id="time"></h3>
+        <h5 id="timezone">Timezone: </h5>
+        <h5 id="sunrise-sunset"> Sunrise — Sunset: </h5>
+        <h5 id="coords"> Coordinates: </h5>
+      </div>
+
+      <div class="weather-related">
+        <h3>
+          <img id="weather-icon" src="">
+        </h3>
+        <h3 id="weather-description"></h3>
+        <h3 id="temperature">Temperature:</h3>
+        <div class="temperature-details optional">
+          <h5 id="temp-perceived">Perceived temperature:</h5>
+          <h5 id="temp-min-max">Min / Max:</h5>
+        </div>
+      </div>
+      
+      <div class="various optional">
+        <h5 id="pressure">Pressure: </h5>
+        <h5 id="humidity">Humididty:</h5>
+        <h5 id="visibility">Visibility:</h5>
+      </div>
+    </div>
+
+    <div class="forecast">
+      <div class="forecast-slider"></div>
+    </div>
+
+  <main/>
+{% endif %}
+  
+
+{% endblock content %}
